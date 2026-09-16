@@ -1,0 +1,218 @@
+{
+  "sourceProductId": 654,
+  "sourceUrl": "https://tech-tailor.com/shop/product/654",
+  "extractedAt": "2026-08-20T06:35:14.523Z",
+  "groups": [
+    {
+      "id": 1,
+      "name": "Lapel Style",
+      "selectionType": "single",
+      "options": [
+        {
+          "id": 1,
+          "name": "NOTCH LAPEL - REGULAR",
+          "description": "Notch Lapel Regular",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739432424.jpg"
+        },
+        {
+          "id": 2,
+          "name": "NOTCH LAPEL SLIM",
+          "description": "Notch Lapel Slim",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739432475.jpg"
+        },
+        {
+          "id": 21,
+          "name": "PEAK LAPEL REGULAR",
+          "description": "Peak Lapel Regular",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739432496.jpg"
+        },
+        {
+          "id": 22,
+          "name": "PEAK LAPEL SLIM",
+          "description": "Peak - Lapel Slim",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739432542.jpg"
+        },
+        {
+          "id": 23,
+          "name": "SHAWL LAPEL",
+          "description": "Shawl Lapel",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739432561.jpg"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Shoulder Style",
+      "selectionType": "single",
+      "options": [
+        {
+          "id": 3,
+          "name": "Natural Shoulder",
+          "description": "Natural Shoulder",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739441881.jpg"
+        },
+        {
+          "id": 4,
+          "name": "Structured Shoulder",
+          "description": "Structured Shoulder",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739441897.jpg"
+        },
+        {
+          "id": 20,
+          "name": "Lightly Padded Shoulder",
+          "description": "Lightly-Padded Shoulder",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739441912.jpg"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Button Closure",
+      "selectionType": "single",
+      "options": [
+        {
+          "id": 11,
+          "name": "1 Button",
+          "description": "1 Button Blazer",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739431239.jpg"
+        },
+        {
+          "id": 12,
+          "name": "2 Button",
+          "description": "2 Button Blazer",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739431255.jpg"
+        },
+        {
+          "id": 13,
+          "name": "3 Button",
+          "description": "3 Button Blazer",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739431268.jpg"
+        },
+        {
+          "id": 14,
+          "name": "4 Button DB",
+          "description": "4 Button DB Blazer",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739431292.jpg"
+        },
+        {
+          "id": 15,
+          "name": "6 Button DB",
+          "description": "6 Button DB Blazer",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739431307.jpg"
+        },
+        {
+          "id": 16,
+          "name": "6 Button-Low DB",
+          "description": "6 Button DB Blazer",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739431319.jpg"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Vent Type",
+      "selectionType": "single",
+      "options": [
+        {
+          "id": 17,
+          "name": "SIDE-VENT",
+          "description": "Side vent",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739443288.jpg"
+        },
+        {
+          "id": 18,
+          "name": "CENTRE-VENT",
+          "description": "Centre vent",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739443303.jpg"
+        },
+        {
+          "id": 19,
+          "name": "NO-VENT",
+          "description": "No vent",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739443316.jpg"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Blazer Details",
+      "selectionType": "multiple",
+      "options": [
+        {
+          "id": 24,
+          "name": "TOP - STITCH",
+          "description": "Top Stitch",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739428875.jpg"
+        },
+        {
+          "id": 25,
+          "name": "HALF - CANVAS LITE",
+          "description": "Half - Canvas Light( 2 Layers)",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739428821.jpg"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Trouser Style",
+      "selectionType": "single",
+      "options": [
+        {
+          "id": 56,
+          "name": "STANDARD FLAT FRONT TROUSER WITH 1 BACK POCKET",
+          "description": "Flat Front with 1 back Pocket",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739442704.jpg"
+        },
+        {
+          "id": 57,
+          "name": "STANDARD FLAT FRONT TROUSER WITH 2 BACK POCKET",
+          "description": "Flat Front with 2 back Pocket",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739442721.jpg"
+        },
+        {
+          "id": 58,
+          "name": "STANDARD TROUSER WITH 1 BACK POCKET AND SINGLE PLEAT",
+          "description": "Single Pleat with 1 back Pocket",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739442738.jpg"
+        },
+        {
+          "id": 59,
+          "name": "STANDARD TROUSER WITH 2 BACK POCKET AND SINGLE PLEAT",
+          "description": "Single Pleat with 2 back Pocket",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739442759.jpg"
+        },
+        {
+          "id": 60,
+          "name": "STANDARD TROUSER WITH 1 BACK POCKET AND 2 PLEAT",
+          "description": "Double Pleat with 1 back Pocket",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739442774.jpg"
+        },
+        {
+          "id": 61,
+          "name": "STANDARD TROUSER WITH 2 BACK POCKET AND 2 PLEAT",
+          "description": "Double Pleat with 2 back Pocket",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739442785.jpg"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Trouser Waistband Style",
+      "selectionType": "single",
+      "options": [
+        {
+          "id": 62,
+          "name": "WAISTBAND WITH BUTTON HOLE",
+          "description": "Waistband with Button and Button Hole",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739443043.jpg"
+        },
+        {
+          "id": 63,
+          "name": "WAISTBAND WITH HOOK AND EYE",
+          "description": "Waistband with Hook and Eye",
+          "imageUrl": "https://tech-tailor.com/uploads/product-customization-options/customization-option-image-1739443062.jpg"
+        }
+      ]
+    }
+  ]
+}

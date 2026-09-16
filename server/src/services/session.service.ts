@@ -1,0 +1,444 @@
+﻿import { randomUUID } from "node:crypto";
+
+import type {
+  PurchaseIntent,
+} from "./intent.service";
+
+import type {
+  WorkflowType,
+} from "./workflow.service";
+
+export type ConversationStage =
+  | "discover_intent"
+  | "discover_department"
+  | "discover_product"
+  | "discover_subcategory"
+  | "discover_occasion"
+  | "discover_budget"
+  | "discover_colour"
+  | "discover_fabric"
+  | "discover_fit"
+  | "discover_style"
+  | "discover_preferences"
+  | "select_product_style"
+  | "discover_customization"
+  | "customize_lapel"
+  | "customize_buttons"
+  | "customize_shoulder"
+  | "customize_vent"
+  | "customize_blazer_options"
+  | "customize_trousers"
+  | "customize_trouser_waistband"
+  | "customize_pockets"
+  | "customize_lining"
+  | "discover_measurement"
+  | "collect_custom_measurements"
+  | "discover_height"
+  | "discover_body_type"
+  | "discover_ready_size"
+  | "discover_technician_city"
+  | "discover_technician_date"
+  | "review_tailored_order"
+  | "ready_for_recommendations";
+
+export type CustomerRequirements = {
+  department: string | null;
+  category: string | null;
+  subcategory: string | null;
+
+  gender: string | null;
+  ageGroup: string | null;
+
+  occasion: string | null;
+  weddingFunction: string | null;
+  budgetMin: number | null;
+  budgetMax: number | null;
+  colour: string | null;
+  fabric: string | null;
+  fit: string | null;
+  stylePreference: string | null;
+
+  customerRole: string | null;
+  eventDate: string | null;
+  venue: string | null;
+  eventTime: string | null;
+
+  quantity: number | null;
+  industry: string | null;
+  employeeCount: number | null;
+  branding: string | null;
+
+  selectedProductId: number | null;
+  selectedProductName: string | null;
+  selectedFabricId: number | null;
+
+  customizationPreference:
+    | string
+    | null;
+  lapelStyle: string | null;
+  buttonStyle: string | null;
+  shoulderStyle: string | null;
+  ventType: string | null;
+  blazerOptions: string | null;
+  trouserStyle: string | null;
+  trouserWaistbandStyle:
+    | string
+    | null;
+
+  selectedCustomizationOptionIds:
+    number[];
+  pocketStyle: string | null;
+  liningPreference: string | null;
+  measurementMethod: string | null;
+  customMeasurements:
+  Record<string, number> | null;
+  heightProfile: string | null;
+  bodyType: string | null;
+  readySize: string | null;
+  technicianCity: string | null;
+  technicianDate: string | null;
+  country: string | null;
+};
+
+export type RequirementField =
+  keyof CustomerRequirements;
+
+export type ConversationSnapshot = {
+  purchaseIntent: PurchaseIntent;
+  workflow: WorkflowType;
+  stage: ConversationStage;
+  expectedField:
+    | RequirementField
+    | null;
+  requirements: CustomerRequirements;
+};
+
+export type ConversationCheckpoint = {
+  id: string;
+  answeredField:
+    | RequirementField
+    | null;
+  userMessage: string;
+  snapshot: ConversationSnapshot;
+  createdAt: Date;
+};
+
+export type ConversationSession = {
+  id: string;
+  purchaseIntent: PurchaseIntent;
+  workflow: WorkflowType;
+  stage: ConversationStage;
+  expectedField:
+    | RequirementField
+    | null;
+  requirements: CustomerRequirements;
+  checkpoints:
+    ConversationCheckpoint[];
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type ConversationSessionUpdates = {
+  purchaseIntent?: PurchaseIntent;
+  workflow?: WorkflowType;
+  stage?: ConversationStage;
+  expectedField?:
+    | RequirementField
+    | null;
+  requirements?:
+    Partial<CustomerRequirements>;
+};
+
+const sessions = new Map<
+  string,
+  ConversationSession
+>();
+
+function createEmptyRequirements():
+  CustomerRequirements {
+  return {
+    department: null,
+    category: null,
+    subcategory: null,
+
+    gender: null,
+    ageGroup: null,
+
+    occasion: null,
+    weddingFunction: null,
+    budgetMin: null,
+    budgetMax: null,
+    colour: null,
+    fabric: null,
+    fit: null,
+    stylePreference: null,
+
+    customerRole: null,
+    eventDate: null,
+    venue: null,
+    eventTime: null,
+
+    quantity: null,
+    industry: null,
+    employeeCount: null,
+    branding: null,
+
+    selectedProductId: null,
+    selectedProductName: null,
+    selectedFabricId: null,
+
+    customizationPreference: null,
+    lapelStyle: null,
+    buttonStyle: null,
+    shoulderStyle: null,
+    ventType: null,
+    blazerOptions: null,
+    trouserStyle: null,
+    trouserWaistbandStyle: null,
+
+    selectedCustomizationOptionIds: [],
+    pocketStyle: null,
+    liningPreference: null,
+    measurementMethod: null,
+    customMeasurements: null,
+    heightProfile: null,
+    bodyType: null,
+    readySize: null,
+    technicianCity: null,
+  technicianDate: null,
+    country: null,
+  };
+}
+
+function createSession():
+  ConversationSession {
+  const currentTime = new Date();
+
+  return {
+    id: randomUUID(),
+    purchaseIntent: "exploring",
+    workflow: "discovery",
+    stage: "discover_intent",
+    expectedField: null,
+    requirements:
+      createEmptyRequirements(),
+    checkpoints: [],
+    createdAt: currentTime,
+    updatedAt: currentTime,
+  };
+}
+
+export function getOrCreateSession(
+  sessionId?: string,
+): ConversationSession {
+  if (sessionId) {
+    const existingSession =
+      sessions.get(sessionId);
+
+    if (existingSession) {
+      return existingSession;
+    }
+  }
+
+  const newSession = createSession();
+
+  sessions.set(
+    newSession.id,
+    newSession,
+  );
+
+  return newSession;
+}
+
+export function updateSession(
+  sessionId: string,
+  updates: ConversationSessionUpdates,
+): ConversationSession {
+  const currentSession =
+    sessions.get(sessionId);
+
+  if (!currentSession) {
+    throw new Error(
+      "Conversation session not found",
+    );
+  }
+
+  const updatedSession:
+    ConversationSession = {
+    ...currentSession,
+    ...updates,
+
+    requirements: {
+      ...currentSession.requirements,
+      ...(updates.requirements ?? {}),
+    },
+
+    updatedAt: new Date(),
+  };
+
+  sessions.set(
+    sessionId,
+    updatedSession,
+  );
+
+  return updatedSession;
+}
+
+export function createSessionCheckpoint(
+  sessionId: string,
+  userMessage: string,
+): ConversationCheckpoint {
+  const currentSession =
+    sessions.get(sessionId);
+
+  if (!currentSession) {
+    throw new Error(
+      "Conversation session not found",
+    );
+  }
+
+  const checkpoint:
+    ConversationCheckpoint = {
+    id: randomUUID(),
+
+    answeredField:
+      currentSession.expectedField,
+
+    userMessage,
+
+    snapshot: {
+      purchaseIntent:
+        currentSession.purchaseIntent,
+
+      workflow:
+        currentSession.workflow,
+
+      stage:
+        currentSession.stage,
+
+      expectedField:
+        currentSession.expectedField,
+
+      requirements: {
+        ...currentSession.requirements,
+
+        selectedCustomizationOptionIds: [
+          ...currentSession.requirements
+            .selectedCustomizationOptionIds,
+        ],
+      },
+    },
+
+    createdAt: new Date(),
+  };
+
+  const updatedSession:
+    ConversationSession = {
+    ...currentSession,
+
+    checkpoints: [
+      ...currentSession.checkpoints,
+      checkpoint,
+    ],
+
+    updatedAt: new Date(),
+  };
+
+  sessions.set(
+    sessionId,
+    updatedSession,
+  );
+
+  return checkpoint;
+}
+
+export function restoreSessionCheckpoint(
+  sessionId: string,
+  checkpointId: string,
+): ConversationSession {
+  const currentSession =
+    sessions.get(sessionId);
+
+  if (!currentSession) {
+    throw new Error(
+      "Conversation session not found",
+    );
+  }
+
+  const checkpointIndex =
+    currentSession.checkpoints.findIndex(
+      (checkpoint) =>
+        checkpoint.id === checkpointId,
+    );
+
+  if (checkpointIndex === -1) {
+    throw new Error(
+      "Conversation checkpoint not found",
+    );
+  }
+
+  const checkpoint =
+    currentSession.checkpoints[
+      checkpointIndex
+    ];
+
+  const restoredSession:
+    ConversationSession = {
+    ...currentSession,
+
+    purchaseIntent:
+      checkpoint.snapshot.purchaseIntent,
+
+    workflow:
+      checkpoint.snapshot.workflow,
+
+    stage:
+      checkpoint.snapshot.stage,
+
+    expectedField:
+      checkpoint.snapshot.expectedField,
+
+    requirements: {
+      ...checkpoint.snapshot.requirements,
+
+      selectedCustomizationOptionIds: [
+        ...checkpoint.snapshot.requirements
+          .selectedCustomizationOptionIds,
+      ],
+    },
+
+    checkpoints:
+      currentSession.checkpoints.slice(
+        0,
+        checkpointIndex,
+      ),
+
+    updatedAt: new Date(),
+  };
+
+  sessions.set(
+    sessionId,
+    restoredSession,
+  );
+
+  return restoredSession;
+}
+
+export function getSessionCheckpoints(
+  sessionId: string,
+): ConversationCheckpoint[] {
+  const session = sessions.get(sessionId);
+
+  if (!session) {
+    return [];
+  }
+
+  return session.checkpoints;
+}
+
+export function deleteSession(
+  sessionId: string,
+): boolean {
+  return sessions.delete(sessionId);
+}
+

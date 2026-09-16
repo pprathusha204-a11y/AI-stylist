@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "Montserrat", Arial, sans-serif;
+  color: #17233d;
+  background: #f8fafc;
+}
+
+button,
+input {
+  font: inherit;
+}

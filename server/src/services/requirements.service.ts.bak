@@ -1,0 +1,1431 @@
+import type {
+  CustomerRequirements,
+  RequirementField,
+} from "./session.service";
+
+const categoryKeywords: Record<
+  string,
+  string[]
+> = {
+  tuxedo: [
+    "tuxedo",
+    "tuxedos",
+  ],
+
+  suit: [
+    "suit",
+    "suits",
+    "two piece",
+    "three piece",
+    "mens suits",
+    "women suits",
+  ],
+
+  shirt: [
+    "shirt",
+    "shirts",
+    "mens shirts",
+  ],
+
+  trousers: [
+    "trouser",
+    "trousers",
+    "pants",
+    "mens trousers",
+  ],
+
+  sherwani: [
+    "sherwani",
+  ],
+
+  kurta: [
+    "kurta",
+  ],
+
+  bandhgala: [
+    "bandhgala",
+  ],
+
+  blazer: [
+    "blazer",
+    "blazers",
+  ],
+
+  overcoat: [
+    "overcoat",
+    "overcoats",
+    "mens overcoats",
+  ],
+
+  "t-shirt": [
+    "t-shirt",
+    "t-shirts",
+    "tshirt",
+    "tshirts",
+  ],
+
+  jacket: [
+    "women jackets",
+  ],
+
+  "trousers and skirts": [
+    "women trousers and skirts",
+  ],
+
+  "shirts and tops": [
+    "women shirts and tops",
+  ],
+
+  "indian ceremonial": [
+    "indian ceremonial",
+  ],
+
+  accessories: [
+    "accessory",
+    "accessories",
+    "tie",
+    "ties",
+    "belt",
+    "belts",
+    "bow tie",
+    "bow ties",
+    "scarf",
+    "scarves",
+    "wallet",
+    "cufflinks",
+    "pocket square",
+  ],
+
+  uniform: [
+    "uniform",
+    "uniforms",
+  ],
+};
+
+const subcategoryKeywords: Record<
+  string,
+  string[]
+> = {
+  "formal wear": [
+    "formal wear",
+  ],
+
+  "semi-formal wear": [
+    "semi-formal wear",
+    "semi formal wear",
+  ],
+
+  tuxedos: [
+    "tuxedos",
+  ],
+
+  "complete attire": [
+    "complete attire",
+  ],
+
+  "formal shirts": [
+    "formal shirts",
+  ],
+
+  "ceremonial shirts": [
+    "ceremonial shirts",
+  ],
+
+  "tie box combos": [
+    "tie box combo",
+    "tie box combos",
+  ],
+
+  belts: [
+    "belts",
+  ],
+
+  "bow ties": [
+    "bow ties",
+  ],
+
+  ties: [
+    "ties",
+  ],
+
+  scarves: [
+    "scarves",
+  ],
+
+  "doctor coats": [
+    "doctor coats",
+  ],
+
+  scrubs: [
+    "scrubs",
+  ],
+
+  "patient gowns": [
+    "patient gowns",
+  ],
+
+  "hospital linen": [
+    "hospital linen",
+  ],
+
+  "chef uniforms": [
+    "chef uniforms",
+  ],
+
+  "steward uniforms": [
+    "steward uniforms",
+  ],
+
+  "housekeeping uniforms": [
+    "housekeeping uniforms",
+  ],
+
+  "front office attire": [
+    "front office attire",
+  ],
+
+  "complete uniform sets": [
+    "complete uniform sets",
+  ],
+};
+
+const occasionKeywords: Record<
+  string,
+  string[]
+> = {
+  wedding: [
+    "wedding",
+    "groom",
+    "reception",
+  ],
+
+  business: [
+    "business",
+    "office",
+    "meeting",
+  ],
+
+  interview: [
+    "interview",
+    "placement",
+  ],
+
+  party: [
+    "party",
+    "cocktail",
+  ],
+
+  graduation: [
+    "graduation",
+    "convocation",
+  ],
+
+  casual: [
+    "casual",
+    "daily wear",
+  ],
+
+  festival: [
+    "festival",
+    "diwali",
+    "eid",
+  ],
+
+  travel: [
+    "travel",
+    "vacation",
+  ],
+
+  "special event": [
+    "special event",
+  ],
+};
+
+const fabricKeywords: Record<
+  string,
+  string[]
+> = {
+  "own fabric": [
+    "use my own fabric",
+    "my own fabric",
+    "own fabric",
+  ],
+
+  "silk blend": [
+    "silk blend",
+  ],
+
+  cotton: [
+    "cotton",
+  ],
+
+  linen: [
+    "linen",
+  ],
+
+  wool: [
+    "wool",
+  ],
+
+  silk: [
+    "silk",
+  ],
+
+  bamboo: [
+    "bamboo",
+  ],
+
+  polyester: [
+    "polyester",
+  ],
+
+  blend: [
+    "blend",
+    "blended fabric",
+  ],
+};
+
+const fitKeywords: Record<
+  string,
+  string[]
+> = {
+  slim: [
+    "slim",
+    "slim fit",
+  ],
+
+  regular: [
+    "regular",
+    "regular fit",
+  ],
+
+  loose: [
+    "loose",
+    "loose fit",
+    "relaxed",
+    "relaxed fit",
+  ],
+};
+
+const colourKeywords: Record<
+  string,
+  string[]
+> = {
+  "navy blue": [
+    "navy blue",
+    "navy",
+  ],
+
+  "charcoal grey": [
+    "charcoal grey",
+    "charcoal gray",
+    "charcoal",
+  ],
+
+  "light blue": [
+    "light blue",
+  ],
+
+  "sage green": [
+    "sage green",
+  ],
+
+  burgundy: [
+    "burgundy",
+  ],
+
+  black: [
+    "black",
+  ],
+
+  white: [
+    "white",
+  ],
+
+  blue: [
+    "blue",
+  ],
+
+  grey: [
+    "grey",
+    "gray",
+  ],
+
+  beige: [
+    "beige",
+  ],
+
+  cream: [
+    "cream",
+    "ivory",
+  ],
+
+  brown: [
+    "brown",
+  ],
+
+  green: [
+    "green",
+  ],
+
+  red: [
+    "red",
+  ],
+};
+
+function containsKeyword(
+  message: string,
+  keyword: string,
+): boolean {
+  const escapedKeyword = keyword
+    .replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&",
+    )
+    .replace(/\s+/g, "\\s+");
+
+  return new RegExp(
+    `\\b${escapedKeyword}\\b`,
+    "i",
+  ).test(message);
+}
+
+function findKeywordValue(
+  message: string,
+  values: Record<string, string[]>,
+): string | null {
+  for (
+    const [value, keywords]
+    of Object.entries(values)
+  ) {
+    if (
+      keywords.some((keyword) =>
+        containsKeyword(
+          message,
+          keyword,
+        ),
+      )
+    ) {
+      return value;
+    }
+  }
+
+  return null;
+}
+
+function convertMoney(
+  value: string,
+): number {
+  const cleanedValue = value
+    .replace(/,/g, "")
+    .trim()
+    .toLowerCase();
+
+  if (cleanedValue.endsWith("k")) {
+    return (
+      Number(
+        cleanedValue.replace(
+          "k",
+          "",
+        ),
+      ) * 1000
+    );
+  }
+
+  return Number(cleanedValue);
+}
+
+function hasExplicitMoneyContext(
+  message: string,
+): boolean {
+  return (
+    /₹|rs\.?|inr|\bbudget\b/i.test(
+      message,
+    ) ||
+    /\d+(?:\.\d+)?k\b/i.test(
+      message,
+    )
+  );
+}
+
+function isBudgetField(
+  expectedField:
+    | RequirementField
+    | null
+    | undefined,
+): boolean {
+  return (
+    expectedField === "budgetMin" ||
+    expectedField === "budgetMax"
+  );
+}
+
+function isLikelyMoneyAmount(
+  amount: number,
+  message: string,
+  expectedField:
+    | RequirementField
+    | null
+    | undefined,
+): boolean {
+  if (!Number.isFinite(amount)) {
+    return false;
+  }
+
+  if (
+    isBudgetField(expectedField) ||
+    hasExplicitMoneyContext(message)
+  ) {
+    return true;
+  }
+
+  return amount >= 1000;
+}
+
+function extractBudget(
+  message: string,
+  expectedField:
+    | RequirementField
+    | null
+    | undefined,
+): {
+  budgetMin?: number;
+  budgetMax?: number;
+} {
+  const rangeMatch = message.match(
+    /(?:between\s*)?(?:₹|rs\.?|inr)?\s*([\d,.]+k?)\s*(?:to|and|–|—|-)\s*(?:₹|rs\.?|inr)?\s*([\d,.]+k?)/i,
+  );
+
+  if (rangeMatch) {
+    const budgetMin =
+      convertMoney(rangeMatch[1]);
+
+    const budgetMax =
+      convertMoney(rangeMatch[2]);
+
+    if (
+      isLikelyMoneyAmount(
+        budgetMin,
+        message,
+        expectedField,
+      ) &&
+      isLikelyMoneyAmount(
+        budgetMax,
+        message,
+        expectedField,
+      )
+    ) {
+      return {
+        budgetMin,
+        budgetMax,
+      };
+    }
+  }
+
+  const maximumMatch = message.match(
+    /(?:under|below|upto|up to|maximum|max|budget)\s*(?:is|of)?\s*(?:₹|rs\.?|inr)?\s*([\d,.]+k?)/i,
+  );
+
+  if (maximumMatch) {
+    const budgetMax =
+      convertMoney(maximumMatch[1]);
+
+    if (
+      isLikelyMoneyAmount(
+        budgetMax,
+        message,
+        expectedField,
+      )
+    ) {
+      return {
+        budgetMax,
+      };
+    }
+  }
+
+  const minimumMatch = message.match(
+    /(?:above|over|minimum|min|starts from|starting from)\s*(?:₹|rs\.?|inr)?\s*([\d,.]+k?)/i,
+  );
+
+  if (minimumMatch) {
+    const budgetMin =
+      convertMoney(minimumMatch[1]);
+
+    if (
+      isLikelyMoneyAmount(
+        budgetMin,
+        message,
+        expectedField,
+      )
+    ) {
+      return {
+        budgetMin,
+      };
+    }
+  }
+
+  /*
+   * A plain number is treated as money only
+   * when the conversation expects a budget.
+   */
+  if (isBudgetField(expectedField)) {
+    const directAmountMatch =
+      message.match(
+        /(?:₹|rs\.?|inr)?\s*([\d,.]+k?)/i,
+      );
+
+    if (directAmountMatch) {
+      const amount =
+        convertMoney(
+          directAmountMatch[1],
+        );
+
+      if (Number.isFinite(amount)) {
+        return expectedField ===
+          "budgetMin"
+          ? {
+              budgetMin: amount,
+            }
+          : {
+              budgetMax: amount,
+            };
+      }
+    }
+  }
+
+  return {};
+}
+
+function extractDepartment(
+  message: string,
+): Pick<
+  CustomerRequirements,
+  "department" | "gender"
+> | null {
+  if (
+    containsKeyword(
+      message,
+      "accessories",
+    ) ||
+    containsKeyword(
+      message,
+      "shop accessories",
+    )
+  ) {
+    return {
+      department: "accessories",
+      gender: null,
+    };
+  }
+
+  if (
+    containsKeyword(
+      message,
+      "shop women",
+    ) ||
+    containsKeyword(
+      message,
+      "women",
+    ) ||
+    containsKeyword(
+      message,
+      "woman",
+    ) ||
+    containsKeyword(
+      message,
+      "female",
+    )
+  ) {
+    return {
+      department: "women",
+      gender: "women",
+    };
+  }
+
+  if (
+    containsKeyword(
+      message,
+      "shop men",
+    ) ||
+    containsKeyword(
+      message,
+      "men",
+    ) ||
+    containsKeyword(
+      message,
+      "man",
+    ) ||
+    containsKeyword(
+      message,
+      "male",
+    )
+  ) {
+    return {
+      department: "men",
+      gender: "men",
+    };
+  }
+
+  return null;
+}
+
+function extractWeddingFunction(
+  message: string,
+): string | null {
+  const values: Record<
+    string,
+    string[]
+  > = {
+    "wedding ceremony": [
+      "wedding ceremony",
+    ],
+
+    "groom's attire": [
+      "groom's attire",
+      "grooms attire",
+    ],
+
+    haldi: [
+      "haldi",
+    ],
+
+    "pool party": [
+      "pool party",
+    ],
+
+    mehendi: [
+      "mehendi",
+      "mehndi",
+    ],
+
+    sundowner: [
+      "sundowner",
+    ],
+
+    cocktail: [
+      "cocktail",
+    ],
+
+    reception: [
+      "reception",
+    ],
+
+    bandhgala: [
+      "bandhgala",
+    ],
+  };
+
+  return findKeywordValue(
+    message,
+    values,
+  );
+}
+
+function extractCustomerRole(
+  message: string,
+): string | null {
+  const values: Record<
+    string,
+    string[]
+  > = {
+    "wedding guest": [
+      "wedding guest",
+      "guest",
+    ],
+
+    groomsman: [
+      "groomsman",
+    ],
+
+    "best man": [
+      "best man",
+    ],
+
+    "family member": [
+      "family member",
+    ],
+
+    groom: [
+      "groom",
+    ],
+  };
+
+  return findKeywordValue(
+    message,
+    values,
+  );
+}
+
+function extractEventDate(
+  message: string,
+): string | null {
+  const values = [
+    "this week",
+    "next week",
+    "this month",
+    "next month",
+    "not decided",
+  ];
+
+  return (
+    values.find((value) =>
+      containsKeyword(
+        message,
+        value,
+      ),
+    ) ?? null
+  );
+}
+
+function extractVenue(
+  message: string,
+): string | null {
+  if (
+    containsKeyword(
+      message,
+      "destination",
+    )
+  ) {
+    return "destination venue";
+  }
+
+  if (
+    containsKeyword(
+      message,
+      "indoor",
+    ) ||
+    containsKeyword(
+      message,
+      "indoors",
+    )
+  ) {
+    return "indoor";
+  }
+
+  if (
+    containsKeyword(
+      message,
+      "outdoor",
+    ) ||
+    containsKeyword(
+      message,
+      "outdoors",
+    )
+  ) {
+    return "outdoor";
+  }
+
+  if (
+    containsKeyword(
+      message,
+      "not decided",
+    )
+  ) {
+    return "not decided";
+  }
+
+  return null;
+}
+
+function extractEventTime(
+  message: string,
+): string | null {
+  if (
+    containsKeyword(
+      message,
+      "evening",
+    )
+  ) {
+    return "evening";
+  }
+
+  if (
+    containsKeyword(
+      message,
+      "daytime",
+    ) ||
+    containsKeyword(
+      message,
+      "day",
+    )
+  ) {
+    return "day";
+  }
+
+  if (
+    containsKeyword(
+      message,
+      "not decided",
+    )
+  ) {
+    return "not decided";
+  }
+
+  return null;
+}
+
+function extractStyle(
+  message: string,
+): string | null {
+  const styles = [
+    "classic",
+    "modern",
+    "minimal",
+    "traditional",
+    "luxury",
+  ];
+
+  return (
+    styles.find((style) =>
+      containsKeyword(
+        message,
+        style,
+      ),
+    ) ?? null
+  );
+}
+
+function extractMeasurementMethod(
+  message: string,
+): string | null {
+  const values: Record<
+    string,
+    string[]
+  > = {
+    "ready size": [
+      "ready size",
+    ],
+
+    "custom measurements": [
+      "custom measurements",
+    ],
+
+    "automated measurements": [
+      "automated measurements",
+    ],
+
+    "schedule technician": [
+      "schedule technician",
+      "schedule a technician",
+    ],
+
+    "existing garment measurements": [
+      "existing garment",
+      "existing garment measurements",
+    ],
+  };
+
+  return findKeywordValue(
+    message,
+    values,
+  );
+}
+
+function extractExpectedNumber(
+  message: string,
+): number | null {
+  const match =
+    message.match(/\d+/);
+
+  if (!match) {
+    return null;
+  }
+
+  const value = Number(match[0]);
+
+  return Number.isFinite(value)
+    ? value
+    : null;
+}
+
+export function extractRequirements(
+  message: string,
+  expectedField?:
+    | RequirementField
+    | null,
+): Partial<CustomerRequirements> {
+  const normalizedMessage = message
+    .toLowerCase()
+    .trim();
+
+  const extracted:
+    Partial<CustomerRequirements> = {};
+
+  const department =
+    extractDepartment(
+      normalizedMessage,
+    );
+
+  const category =
+    findKeywordValue(
+      normalizedMessage,
+      categoryKeywords,
+    );
+
+  const subcategory =
+    findKeywordValue(
+      normalizedMessage,
+      subcategoryKeywords,
+    );
+
+  const occasion =
+    findKeywordValue(
+      normalizedMessage,
+      occasionKeywords,
+    );
+
+  const fabric =
+    findKeywordValue(
+      normalizedMessage,
+      fabricKeywords,
+    );
+
+  const fit =
+    findKeywordValue(
+      normalizedMessage,
+      fitKeywords,
+    );
+
+  const colour =
+    findKeywordValue(
+      normalizedMessage,
+      colourKeywords,
+    );
+
+  if (department) {
+    extracted.department =
+      department.department;
+
+    if (department.gender) {
+      extracted.gender =
+        department.gender;
+    }
+  }
+
+  if (category) {
+    extracted.category = category;
+  }
+
+  if (subcategory) {
+    extracted.subcategory =
+      subcategory;
+  }
+
+  if (occasion) {
+    extracted.occasion =
+      occasion;
+  }
+
+  if (fabric) {
+    extracted.fabric = fabric;
+  }
+
+  if (fit) {
+    extracted.fit = fit;
+  }
+
+  if (colour) {
+    extracted.colour = colour;
+  }
+
+  if (
+    expectedField ===
+    "weddingFunction"
+  ) {
+    const weddingFunction =
+      extractWeddingFunction(
+        normalizedMessage,
+      );
+
+    if (weddingFunction) {
+      extracted.weddingFunction =
+        weddingFunction;
+
+      extracted.occasion =
+        "wedding";
+    }
+  }
+
+  if (
+    expectedField ===
+    "customerRole"
+  ) {
+    const customerRole =
+      extractCustomerRole(
+        normalizedMessage,
+      );
+
+    if (customerRole) {
+      extracted.customerRole =
+        customerRole;
+    }
+  }
+
+  if (
+    expectedField === "eventDate"
+  ) {
+    const eventDate =
+      extractEventDate(
+        normalizedMessage,
+      );
+
+    if (eventDate) {
+      extracted.eventDate =
+        eventDate;
+    }
+  }
+
+  if (
+    expectedField === "venue"
+  ) {
+    const venue =
+      extractVenue(
+        normalizedMessage,
+      );
+
+    if (venue) {
+      extracted.venue = venue;
+    }
+  }
+
+  if (
+    expectedField === "eventTime"
+  ) {
+    const eventTime =
+      extractEventTime(
+        normalizedMessage,
+      );
+
+    if (eventTime) {
+      extracted.eventTime =
+        eventTime;
+    }
+  }
+
+  if (
+    expectedField ===
+    "stylePreference"
+  ) {
+    const style =
+      extractStyle(
+        normalizedMessage,
+      );
+
+    if (style) {
+      extracted.stylePreference =
+        style;
+    }
+  }
+
+  if (
+    expectedField ===
+    "measurementMethod"
+  ) {
+    const measurementMethod =
+      extractMeasurementMethod(
+        normalizedMessage,
+      );
+
+    if (measurementMethod) {
+      extracted.measurementMethod =
+        measurementMethod;
+    }
+  }
+
+  if (
+    expectedField ===
+    "heightProfile"
+  ) {
+    if (
+      normalizedMessage.includes(
+        "short",
+      ) ||
+      normalizedMessage.includes(
+        "below 168",
+      )
+    ) {
+      extracted.heightProfile =
+        "Short";
+    } else if (
+      normalizedMessage.includes(
+        "tall",
+      ) ||
+      normalizedMessage.includes(
+        "above 186",
+      )
+    ) {
+      extracted.heightProfile =
+        "Tall";
+    } else if (
+      normalizedMessage.includes(
+        "regular",
+      )
+    ) {
+      extracted.heightProfile =
+        "Regular";
+    }
+  }
+
+  if (
+    expectedField === "bodyType"
+  ) {
+    if (
+      normalizedMessage.includes(
+        "ectomorph",
+      )
+    ) {
+      extracted.bodyType =
+        "Ectomorph";
+    } else if (
+      normalizedMessage.includes(
+        "mesomorph",
+      )
+    ) {
+      extracted.bodyType =
+        "Mesomorph";
+    } else if (
+      normalizedMessage.includes(
+        "endomorph",
+      )
+    ) {
+      extracted.bodyType =
+        "Endomorph";
+    }
+  }
+
+  if (
+    expectedField === "readySize"
+  ) {
+    if (
+      normalizedMessage.includes(
+        "not sure",
+      )
+    ) {
+      extracted.readySize =
+        "Not Sure";
+    } else {
+      const readySizeMatch =
+        normalizedMessage.match(
+          /\b(2xl|xxl|xl|l|m|s)\b/i,
+        );
+
+      if (readySizeMatch) {
+        extracted.readySize =
+          readySizeMatch[1]
+            .toUpperCase()
+            .replace("XXL", "2XL");
+      }
+    }
+  }
+
+  if (
+    expectedField === "quantity" ||
+    expectedField ===
+      "employeeCount"
+  ) {
+    const numericValue =
+      extractExpectedNumber(
+        normalizedMessage,
+      );
+
+    if (numericValue !== null) {
+      if (
+        expectedField === "quantity"
+      ) {
+        extracted.quantity =
+          numericValue;
+      } else {
+        extracted.employeeCount =
+          numericValue;
+      }
+    }
+  }
+
+    /*
+   * Product and fabric card selections.
+   */
+  const selectedProductMatch =
+    message.match(
+      /product\s+id\s*(\d+)\s*:\s*(.+)$/i,
+    );
+
+  if (selectedProductMatch) {
+    extracted.selectedProductId =
+      Number(selectedProductMatch[1]);
+
+    extracted.selectedProductName =
+      selectedProductMatch[2].trim();
+  }
+
+  const selectedFabricMatch =
+    message.match(
+      /fabric\s+id\s*(\d+)\s*:\s*(.+)$/i,
+    );
+
+  if (selectedFabricMatch) {
+    extracted.selectedFabricId =
+      Number(selectedFabricMatch[1]);
+
+    extracted.fabric =
+      selectedFabricMatch[2].trim();
+  }
+
+  /*
+   * Tailoring customization answers.
+   */
+  if (
+    expectedField ===
+    "customizationPreference"
+  ) {
+    if (
+      normalizedMessage.includes(
+        "customize",
+      ) ||
+      normalizedMessage.includes(
+        "customise",
+      ) ||
+      normalizedMessage.includes(
+        "personalize",
+      ) ||
+      normalizedMessage.includes(
+        "bespoke",
+      )
+    ) {
+      extracted.customizationPreference =
+        "customize style";
+    } else if (
+      normalizedMessage.includes("keep") ||
+      normalizedMessage.includes(
+        "recommended design",
+      ) ||
+      normalizedMessage.includes(
+        "standard design",
+      )
+    ) {
+      extracted.customizationPreference =
+        "keep recommended design";
+    }
+  }
+
+    /*
+   * Live Tech-Tailor customization
+   * option-card selection.
+   */
+
+
+const selectedCustomizationMatch =
+  message.match(
+    /customization\s+option\s+ids?\s*([\d,\s]+)\s*:\s*(.+)$/i,
+  );
+
+const customizationOptionIds =
+  selectedCustomizationMatch
+    ? selectedCustomizationMatch[1]
+        .split(",")
+        .map((value) =>
+          Number(value.trim()),
+        )
+        .filter(
+          (value) =>
+            Number.isInteger(value) &&
+            value > 0,
+        )
+    : [];
+
+const customizationOptionName =
+  selectedCustomizationMatch
+    ? selectedCustomizationMatch[2].trim()
+    : message.trim();
+
+if (
+  customizationOptionIds.length > 0
+) {
+  extracted.selectedCustomizationOptionIds =
+    customizationOptionIds;
+}
+
+if (customizationOptionName) {
+  switch (expectedField) {
+    case "lapelStyle":
+      extracted.lapelStyle =
+        customizationOptionName;
+      break;
+
+    case "shoulderStyle":
+      extracted.shoulderStyle =
+        customizationOptionName;
+      break;
+
+    case "buttonStyle":
+      extracted.buttonStyle =
+        customizationOptionName;
+      break;
+
+    case "ventType":
+      extracted.ventType =
+        customizationOptionName;
+      break;
+
+    case "blazerOptions":
+      extracted.blazerOptions =
+        normalizedMessage.includes(
+          "no additional",
+        ) ||
+        normalizedMessage.includes(
+          "none",
+        )
+          ? "No additional blazer option"
+          : customizationOptionName;
+      break;
+
+    case "trouserStyle":
+      extracted.trouserStyle =
+        customizationOptionName;
+      break;
+
+    case "trouserWaistbandStyle":
+      extracted.trouserWaistbandStyle =
+        customizationOptionName;
+      break;
+
+    default:
+      break;
+  }
+}
+
+  if (expectedField === "monogramText") {
+    if (
+      normalizedMessage.includes(
+        "no monogram",
+      ) ||
+      normalizedMessage.includes(
+        "do not want",
+      )
+    ) {
+      extracted.monogramText =
+        "No monogram";
+    } else {
+      const monogramText = message
+        .replace(
+          /^(my initials are|use initials|monogram|initials)\s*[:\-]?\s*/i,
+          "",
+        )
+        .trim();
+
+      if (monogramText) {
+        extracted.monogramText =
+          monogramText;
+      }
+    }
+  }
+
+  Object.assign(
+    extracted,
+    extractBudget(
+      normalizedMessage,
+      expectedField,
+    ),
+  );
+
+  return extracted;
+}
