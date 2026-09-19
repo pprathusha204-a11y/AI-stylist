@@ -1,9 +1,10 @@
 type ChatMessageProps = {
   role: "user" | "assistant";
   text: string;
+  image?: string;
 };
 
-function ChatMessage({ role, text }: ChatMessageProps) {
+function ChatMessage({ role, text, image }: ChatMessageProps) {
   const isUser = role === "user";
 
   return (
@@ -19,6 +20,7 @@ function ChatMessage({ role, text }: ChatMessageProps) {
             : "rounded-bl-md border border-slate-200 bg-white text-slate-700 shadow-sm"
         }`}
       >
+        {image && <img src={image} alt="Uploaded outfit" className="mb-2 max-h-64 max-w-full rounded-lg object-contain" />}
         {text}
       </div>
     </div>

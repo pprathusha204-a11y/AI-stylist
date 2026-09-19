@@ -661,6 +661,18 @@ chatRouter.post(
       });
     }
 
+    const image = request.body.image;
+    if (image !== undefined && (
+      typeof image !== "string" ||
+      !/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(image) ||
+      Buffer.from(image.split(",")[1] || "", "base64").length > 5 * 1024 * 1024
+    )) {
+      return response.status(400).json({ success: false, message: "Choose a JPG, PNG, or WebP image smaller than 5 MB." });
+    }
+    if (image && !process.env.GEMINI_API_KEY) {
+      return response.status(503).json({ success: false, message: "Image analysis is not configured yet. Please describe your outfit in text." });
+    }
+
     const session =
       getOrCreateSession(
         requestedSessionId,
@@ -722,12 +734,17 @@ chatRouter.post(
       stylistRecommendation.note !== null;
 
     const geminiResult =
-      hasDeterministicResult
+      hasDeterministicResult && !image
         ? null
         : await extractWithGemini(
             message,
             session,
+            image,
           );
+
+    if (image && !geminiResult) {
+      return response.status(502).json({ success: false, message: "Unable to analyse this image. Please try again or describe your outfit in text." });
+    }
 
     const fallbackIntent =
       intentResult.confidence ===

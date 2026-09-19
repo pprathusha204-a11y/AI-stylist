@@ -18,7 +18,7 @@ app.use(
   }),
 );
 
-app.use(express.json());
+app.use(express.json({ limit: "8mb" }));
 app.use("/api/chat", chatRouter);
 
 app.get("/api/health", (_request, response) => {

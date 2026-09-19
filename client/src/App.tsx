@@ -46,6 +46,7 @@ type Message = {
     | "assistant";
 
   text: string;
+  image?: string;
 
   stage?: ConversationStage;
 
@@ -159,12 +160,13 @@ function App() {
   const handleConversation = async (
     visibleMessage: string,
     apiMessage: string = visibleMessage,
+    image?: string,
   ) => {
     if (
       isLoading ||
       !visibleMessage.trim()
     ) {
-      return;
+      return false;
     }
 
     const messageId = Date.now();
@@ -176,6 +178,7 @@ function App() {
           id: messageId,
           role: "user",
           text: visibleMessage,
+          image,
         },
       ],
     );
@@ -187,6 +190,7 @@ function App() {
         await sendChatMessage(
           apiMessage,
           sessionId,
+          image,
         );
 
       setSessionId(result.sessionId);
@@ -247,6 +251,7 @@ function App() {
           ];
         },
       );
+      return true;
     } catch (error) {
       console.error(
         "Stylist request failed:",
@@ -263,10 +268,11 @@ function App() {
             role: "assistant",
 
             text:
-              "Sorry, I couldn't connect to the stylist service. Please try again.",
+              error instanceof Error ? error.message : "Sorry, I couldn't connect to the stylist service. Please try again.",
           },
         ],
       );
+      return false;
     } finally {
       setIsLoading(false);
     }
@@ -549,8 +555,9 @@ function App() {
 
   const handleSendMessage = (
     text: string,
+    image?: string,
   ) => {
-    void handleConversation(text);
+    return handleConversation(text, text, image);
   };
 
   const latestAssistantMessageId =
@@ -614,6 +621,7 @@ function App() {
                       <ChatMessage
                         role="user"
                         text={message.text}
+                        image={message.image}
                       />
 
 
@@ -912,6 +920,7 @@ function App() {
       </main>
 
       <ChatInput
+        disabled={isLoading}
         onSendMessage={
           handleSendMessage
         }

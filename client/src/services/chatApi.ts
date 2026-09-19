@@ -379,6 +379,7 @@ async function readApiResponse<T>(
 export async function sendChatMessage(
   message: string,
   sessionId?: string,
+  image?: string,
 ): Promise<ChatApiData> {
   const response = await fetch(
     `${API_URL}/chat`,
@@ -393,6 +394,7 @@ export async function sendChatMessage(
       body: JSON.stringify({
         message,
         sessionId,
+        image,
       }),
     },
   );
