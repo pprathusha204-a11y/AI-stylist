@@ -592,6 +592,14 @@ if (
   }
 
   if (accessoriesShopping) {
+    if (selectedProduct) {
+      return createStep(
+        null,
+        "Your accessory is selected. Review your selection and continue on Tech-Tailor to complete your order.",
+        "review_tailored_order",
+      );
+    }
+
     return createStep(
       null,
       "Choose an accessory to continue.",
