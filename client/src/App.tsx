@@ -454,18 +454,6 @@ function App() {
   const handleWelcomeOptionSelect = (
     option: string,
   ) => {
-    if (option === "Use this style") {
-      document.getElementById("style-reference-upload")?.click();
-      return;
-    }
-    if (option === "Guide me through my first order" || option === "Payment and delivery") {
-      const help = document.getElementById("order-help") as HTMLDetailsElement | null;
-      if (help) help.open = true;
-      if (option === "Payment and delivery") {
-        const payment = document.getElementById("payment-delivery-help") as HTMLDetailsElement | null;
-        if (payment) payment.open = true;
-      }
-    }
     const apiMessage =
       optionMessages[option] ??
       option;

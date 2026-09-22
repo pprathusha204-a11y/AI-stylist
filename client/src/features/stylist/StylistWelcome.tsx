@@ -1,10 +1,6 @@
 import { useState } from "react";
 
 const stylistOptions = [
-  "Guide me through my first order",
-  "Measurement Help",
-  "Use this style",
-  "Payment and delivery",
   "Shop Men",
   "Shop Women",
   "Shop Accessories",
