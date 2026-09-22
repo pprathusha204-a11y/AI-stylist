@@ -1,25 +1,21 @@
+import type { ReactNode } from "react";
+import NavigationMenu from "./NavigationMenu";
 import {
   House,
-  Menu,
   Plus,
   UserRound,
 } from "lucide-react";
 
 type HeaderProps = {
   onNewSession: () => void;
+  journey: ReactNode;
 };
 
-function Header({ onNewSession }: HeaderProps) {
+function Header({ onNewSession, journey }: HeaderProps) {
   return (
     <header className="grid h-16 grid-cols-[1fr_auto_1fr] items-center border-b border-slate-200 bg-white px-3 shadow-sm sm:px-5">
       <div className="flex items-center gap-1 sm:gap-5">
-        <button
-          type="button"
-          className="flex h-9 w-9 shrink-0 items-center justify-center text-slate-600 transition hover:text-slate-900"
-          aria-label="Open menu"
-        >
-          <Menu size={20} strokeWidth={1.7} />
-        </button>
+        <NavigationMenu journey={journey} />
 
         <button
           type="button"

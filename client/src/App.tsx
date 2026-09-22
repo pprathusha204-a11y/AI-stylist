@@ -123,7 +123,6 @@ const optionMessages: Record<
 };
 
 function App() {
-  const [helpSession, setHelpSession] = useState(0);
   const [messages, setMessages] =
     useState<Message[]>([]);
 
@@ -153,7 +152,6 @@ function App() {
   }, [messages, isLoading]);
 
   const handleNewSession = () => {
-    setHelpSession(value => value + 1);
     setMessages([]);
     setSessionId(undefined);
     setIsLoading(false);
@@ -575,13 +573,13 @@ function App() {
   return (
     <div className="min-h-screen bg-[#f7f9fc]">
       <Header
+        journey={<OrderHelp requirements={[...messages].reverse().find(message => message.requirements)?.requirements} stage={[...messages].reverse().find(message => message.stage)?.stage} />}
         onNewSession={
           handleNewSession
         }
       />
 
       <main className="pb-28">
-        <OrderHelp key={helpSession} requirements={[...messages].reverse().find(message => message.requirements)?.requirements} stage={[...messages].reverse().find(message => message.stage)?.stage} />
         {messages.length === 0 ? (
           <StylistWelcome
             onOptionSelect={
