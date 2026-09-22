@@ -17,7 +17,7 @@ export default function OrderHelp(props: Props) {
   const nextIndex = steps.findIndex(step => !step.done);
   return <aside className="mx-auto mt-4 max-w-3xl px-4">
     <details className="rounded-xl border border-slate-200 bg-white p-4" id="order-help">
-      <summary className="cursor-pointer text-sm font-semibold text-slate-800">Order help — {steps[nextIndex]?.title}</summary>
+      <summary className="cursor-pointer text-sm font-semibold text-slate-800">Your Custom Outfit Journey</summary>
       <ol className="mt-3 space-y-3">
         {steps.map((step, index) => <li key={step.title} aria-current={index === nextIndex ? "step" : undefined} className="text-xs text-slate-600"><p className="font-semibold text-slate-900">{index + 1}. {step.title} <span className="font-normal text-slate-500">({step.done ? "Selected" : index === nextIndex ? "Next" : "To do"})</span></p><p className="mt-1">{step.description}</p></li>)}
       </ol>
