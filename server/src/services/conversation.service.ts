@@ -786,7 +786,7 @@ if (
 if (!requirements.measurementMethod) {
   return createStep(
     "measurementMethod",
-    "How would you like to provide your measurements?",
+    "How would you like to provide your measurements? Choose a ready size, enter your own measurements using the guide, complete an automated body scan, or request a technician visit (subject to location and appointment confirmation). Measurement Help has the illustrated guides.",
     "discover_measurement",
   );
 }

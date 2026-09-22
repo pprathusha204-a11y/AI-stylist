@@ -1,3 +1,4 @@
+import { extractOrderDetails, getOrderGuidance } from "../services/order-guidance.service";
 import {
   Router,
   type Request,
@@ -692,6 +693,28 @@ chatRouter.post(
      * Save the field being answered before
      * determining the next question.
      */
+    const orderDetails = extractOrderDetails(message);
+    const guidance = getOrderGuidance(message);
+    if (!image && (guidance || Object.keys(orderDetails).length > 0)) {
+      const current = updateSession(session.id, { requirements: orderDetails });
+      const next = determineNextStep(current.purchaseIntent, current.workflow, current.requirements);
+      const resumed = updateSession(current.id, { stage: next.stage, expectedField: next.expectedField });
+      return response.status(200).json({ success: true, data: {
+        sessionId: resumed.id,
+        checkpoint: { id: checkpoint.id, answeredField: checkpoint.answeredField },
+        userMessage: message,
+        acknowledgement: Object.keys(orderDetails).length ? "Your detailed requests are saved for this conversation. Confirm availability with Tech-Tailor before checkout." : null,
+        recommendationMessage: null, recommendations: [], fabricRecommendations: [],
+        reply: [guidance, next.reply].filter(Boolean).join("\n\n"),
+        quickReplies: getQuickReplies(next.expectedField, resumed.workflow, resumed.requirements),
+        customizationGroup: getActiveCustomizationGroup(next.expectedField, resumed.requirements),
+        bodyTypeGroup: next.expectedField === "fit" ? getFitOptionsGroup(resumed.requirements) : next.expectedField === "bodyType" ? getBodyTypeGroup(resumed.requirements) : null,
+        purchaseIntent: resumed.purchaseIntent, workflow: resumed.workflow,
+        extractionSource: "rule_fallback", confidence: 1,
+        stage: resumed.stage, expectedField: resumed.expectedField, requirements: resumed.requirements,
+      }});
+    }
+
     const answeredField =
       session.expectedField;
 
@@ -701,11 +724,11 @@ chatRouter.post(
     const workflowResult =
       classifyWorkflow(message);
 
-    const ruleRequirements =
-      extractRequirements(
-        message,
-        session.expectedField,
-      );
+    const ruleRequirements = {
+      ...extractRequirements(message, session.expectedField),
+      ...orderDetails,
+      ...(image ? { styleAdaptation: message.slice(0, 500) } : {}),
+    };
 
     const stylistRecommendation =
       getStylistRecommendation(

@@ -98,6 +98,13 @@ export type CustomerRequirements = {
   technicianCity: string | null;
   technicianDate: string | null;
   country: string | null;
+  fabricBlend: string | null;
+  yarnCount: string | null;
+  threadCount: string | null;
+  liningMaterial: string | null;
+  liningConstruction: string | null;
+  styleAdaptation: string | null;
+  deliveryDestination: string | null;
 };
 
 export type RequirementField =
@@ -207,6 +214,13 @@ function createEmptyRequirements():
     technicianCity: null,
   technicianDate: null,
     country: null,
+    fabricBlend: null,
+    yarnCount: null,
+    threadCount: null,
+    liningMaterial: null,
+    liningConstruction: null,
+    styleAdaptation: null,
+    deliveryDestination: null,
   };
 }
 

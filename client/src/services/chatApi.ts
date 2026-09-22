@@ -124,6 +124,13 @@ customMeasurements:
 technicianCity: string | null;
 technicianDate: string | null;
   country: string | null;
+  fabricBlend: string | null;
+  yarnCount: string | null;
+  threadCount: string | null;
+  liningMaterial: string | null;
+  liningConstruction: string | null;
+  styleAdaptation: string | null;
+  deliveryDestination: string | null;
 };
 
 export type RequirementField =

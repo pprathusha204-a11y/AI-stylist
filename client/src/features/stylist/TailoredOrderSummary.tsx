@@ -26,6 +26,14 @@ function TailoredOrderSummary({
 }: TailoredOrderSummaryProps) {
   const styleChoices = [
     ["Lapel", requirements.lapelStyle],
+    ["Style adaptation", requirements.styleAdaptation],
+    ["Fabric blend", requirements.fabricBlend],
+    ["Yarn count", requirements.yarnCount],
+    ["Thread count", requirements.threadCount],
+    ["Lining preference", requirements.liningPreference],
+    ["Lining material", requirements.liningMaterial],
+    ["Lining construction", requirements.liningConstruction],
+    ["Delivery requested", requirements.deliveryDestination],
     [
       "Shoulder",
       requirements.shoulderStyle,
@@ -186,7 +194,7 @@ function TailoredOrderSummary({
       {styleChoices.length > 0 && (
         <div className="mt-4">
           <p className="text-xs font-semibold text-slate-800">
-            Style
+            Style and detailed requests
           </p>
 
           <div className="mt-2 grid gap-x-4 gap-y-2 sm:grid-cols-2">
@@ -255,6 +263,8 @@ function TailoredOrderSummary({
           </div>
         </div>
       )}
+
+      <p className="mt-3 text-xs text-slate-500">Exact specifications are requests until confirmed by Tech-Tailor. Carry these details into checkout.</p>
 
       {actionUrl && (
         <div className="mt-4">

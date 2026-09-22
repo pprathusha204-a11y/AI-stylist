@@ -1,6 +1,10 @@
 import { useState } from "react";
 
 const stylistOptions = [
+  "Guide me through my first order",
+  "Measurement Help",
+  "Use this style",
+  "Payment and delivery",
   "Shop Men",
   "Shop Women",
   "Shop Accessories",
@@ -126,6 +130,12 @@ function StylistWelcome({
         {heading}
       </h1>
 
+      {view === "measurements" && <div className="mx-auto mt-4 max-w-xl space-y-2 text-left text-sm text-slate-600">
+        <p><strong>Measure yourself:</strong> Follow the illustrated guide, then enter measurements in inches during your order.</p>
+        <p><strong>Automated measurement:</strong> Open the body-scan service and follow its capture instructions.</p>
+        <p><strong>Technician visit:</strong> Request a location and date; Tech-Tailor will confirm availability.</p>
+        <p><strong>Ready size:</strong> Choose a standard size when the stylist asks for your measurement method.</p>
+      </div>}
       <div className="mx-auto mt-5 flex max-w-[340px] flex-wrap justify-center gap-2 sm:max-w-xl sm:gap-2.5">
         {visibleOptions.map((option) => (
           <button

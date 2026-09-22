@@ -123,14 +123,14 @@ function ChatInput({ onSendMessage, disabled = false }: ChatInputProps) {
     <div className="fixed bottom-3 left-1/2 z-20 w-[calc(100%-1.5rem)] max-w-3xl -translate-x-1/2 sm:bottom-4 sm:w-[calc(100%-2rem)]">
       {image && <div className="mb-2 flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-2 shadow-sm">
         <img src={image} alt="Selected attachment" className="h-16 w-16 rounded-lg object-cover" />
-        <span className="flex-1 text-sm text-slate-600">Image attached</span>
+        <span className="flex-1 text-sm text-slate-600">Which details should we keep or change? Describe the fit, collar, sleeves or length.</span>
         <button type="button" disabled={disabled} onClick={() => setImage(undefined)} aria-label="Remove image" className="p-2"><X size={18} /></button>
       </div>}
       {(error || listening || reading) && <p role={error ? "alert" : "status"} className="mb-2 rounded-lg bg-white px-3 py-2 text-sm text-slate-700 shadow-sm">{error || (reading ? "Reading image..." : "Listening... Click stop when finished.")}</p>}
       <form onSubmit={handleSubmit} className="flex items-center rounded-full border border-slate-200 bg-white px-2 py-2 shadow-lg sm:px-3">
-        <input ref={fileInput} type="file" accept="image/jpeg,image/png,image/webp" onChange={selectImage} className="hidden" aria-label="Choose image" />
-        <button type="button" disabled={disabled || reading} onClick={() => fileInput.current?.click()} className="flex h-9 w-9 shrink-0 items-center justify-center text-slate-400 transition hover:text-slate-700 disabled:opacity-50" aria-label="Upload image"><ImagePlus size={16} strokeWidth={1.6} /></button>
-        <input type="text" value={input} disabled={disabled} onChange={(event) => setInput(event.target.value)} placeholder="Ask me anything about your outfit..." aria-label="Message" className="min-w-0 flex-1 border-none bg-transparent px-2 text-xs text-slate-800 outline-none placeholder:text-slate-400 sm:text-sm" />
+        <input id="style-reference-upload" ref={fileInput} type="file" accept="image/jpeg,image/png,image/webp" onChange={selectImage} className="hidden" aria-label="Choose image" />
+        <button type="button" disabled={disabled || reading} onClick={() => fileInput.current?.click()} className="flex h-9 shrink-0 items-center justify-center gap-1 px-2 text-slate-600 transition hover:text-slate-900 disabled:opacity-50" aria-label="Use this style: upload image"><ImagePlus size={16} strokeWidth={1.6} /><span className="text-[10px] sm:text-xs">Use this style</span></button>
+        <input type="text" value={input} disabled={disabled} onChange={(event) => setInput(event.target.value)} placeholder={image ? "Tell me what to keep or change..." : "Ask me anything about your outfit..."} aria-label="Message" className="min-w-0 flex-1 border-none bg-transparent px-2 text-xs text-slate-800 outline-none placeholder:text-slate-400 sm:text-sm" />
         <button type="button" disabled={disabled} onClick={toggleVoice} className={`flex h-9 w-9 shrink-0 items-center justify-center transition ${listening ? "text-red-600" : "text-slate-400 hover:text-slate-700"}`} aria-label={listening ? "Stop voice input" : "Voice input"} aria-pressed={listening}>{listening ? <Square size={16} /> : <Mic size={16} strokeWidth={1.6} />}</button>
         <button type="submit" disabled={disabled || reading || listening || (!input.trim() && !image)} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-700 text-white transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:bg-slate-300" aria-label="Send message"><ArrowUp size={18} strokeWidth={1.8} /></button>
       </form>
