@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "Jost", Arial, sans-serif;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -13,7 +17,7 @@ body,
 }
 
 body {
-  font-family: "Montserrat", Arial, sans-serif;
+  font-family: var(--font-sans);
   color: #17233d;
   background: #f8fafc;
 }

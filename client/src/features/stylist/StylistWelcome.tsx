@@ -122,7 +122,7 @@ function StylistWelcome({
 
   return (
     <section className="mx-auto w-full max-w-3xl px-4 pt-10 text-center sm:pt-12">
-      <h1 className="mx-auto max-w-[320px] font-serif text-[22px] font-medium leading-[1.25] text-slate-950 sm:max-w-xl sm:text-[27px]">
+      <h1 className="mx-auto max-w-[320px] font-sans text-[22px] font-medium leading-[1.25] text-slate-950 sm:max-w-xl sm:text-[27px]">
         {heading}
       </h1>
 
