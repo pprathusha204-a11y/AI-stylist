@@ -27,7 +27,7 @@ export function extractOrderDetails(message: string): Partial<CustomerRequiremen
 export function getOrderGuidance(message: string): string | null {
   const answers: string[] = [];
   if (/guide me through my first order|how (?:do i|to) (?:place an order|order)/i.test(message)) {
-    answers.push("We'll work through your garment and style, fabric and lining, measurements, then an order review. Use Order help to see your progress or add exact specifications. After review, continue to Tech-Tailor to confirm availability, delivery and payment.");
+    answers.push("We'll work through your garment and style, fabric and lining, measurements, then an order review. Use Order help to see your progress. After review, continue to Tech-Tailor to confirm availability, delivery and payment.");
   }
   if (/how (?:will|do|can) i (?:be measured|measure)|measurement help|how.*measurements.*(?:work|taken)/i.test(message)) {
     answers.push("For self-measurement, open Measurement Help for the men's or women's illustrated guide, then enter your measurements in inches. Automated Measurement opens the body-scan service; it must be completed there. A technician visit requires location and appointment confirmation. Ready Size lets you choose a standard size. Choose the method that you are comfortable with.");
@@ -36,11 +36,11 @@ export function getOrderGuidance(message: string): string | null {
     answers.push("Use the labelled Use this style upload button to attach a JPG, PNG or WebP reference. Tell me which details to keep or change, such as the collar, fit, sleeves or length. A reference guides the design; measurements and exact fabric composition need to be supplied separately. Tech-Tailor must confirm the requested design can be made.");
   }
   if (/can i.*(?:fabric|blend|lining|counts)|detailed fabric requests/i.test(message)) {
-    answers.push("Open Order help > Detailed requests to record blend percentages, yarn count (including its system), thread count, lining material and lining construction. These remain requests for Tech-Tailor to confirm against available fabrics before payment.");
+    answers.push("Share exact preferences in chat using labels such as Fabric blend: 80% wool, 20% silk; Yarn count: Ne 100/2; Thread count: 200 per inch; Lining material: cupro; Lining construction: half lined. These remain requests for Tech-Tailor to confirm against available fabrics before payment.");
   }
   if (/payment and delivery|credit card|us-issued|can i pay|do you ship|(?:pay|payment).*(?:card|california|\bus\b)|(?:ship|shipping|deliver|delivery).*(?:\bus\b|usa|united states|delhi)|(?:\bus\b|delhi).*(?:shipping|delivery)/i.test(message)) {
     answers.push(process.env.STYLIST_PAYMENT_POLICY?.trim() || "The published terms mention credit cards but do not explicitly confirm US-issued card acceptance or supported card networks. Please confirm your card and billing currency with Tech-Tailor before paying; use the contact link under Order help > Payment and delivery.");
-    answers.push(process.env.STYLIST_SHIPPING_POLICY?.trim() || "Tech-Tailor advertises free worldwide DHL delivery on its homepage. Its terms advise around three weeks for production and delivery, with customs or import charges paid by the recipient. Record your US or Delhi destination in Detailed requests and confirm your address, final charges and delivery estimate before payment. See Payment and delivery in Order help for the published terms and contact links.");
+    answers.push(process.env.STYLIST_SHIPPING_POLICY?.trim() || "Tech-Tailor advertises free worldwide DHL delivery on its homepage. Its terms advise around three weeks for production and delivery, with customs or import charges paid by the recipient. Confirm your US or Delhi delivery address, final charges and delivery estimate with Tech-Tailor before payment. See Payment and delivery in Order help for the published terms and contact links.");
   }
   return answers.length ? answers.join("\n\n") : null;
 }

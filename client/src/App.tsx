@@ -593,7 +593,7 @@ function App() {
       />
 
       <main className="pb-28">
-        <OrderHelp key={helpSession} requirements={[...messages].reverse().find(message => message.requirements)?.requirements} stage={[...messages].reverse().find(message => message.stage)?.stage} disabled={isLoading} onSend={handleSendMessage} />
+        <OrderHelp key={helpSession} requirements={[...messages].reverse().find(message => message.requirements)?.requirements} stage={[...messages].reverse().find(message => message.stage)?.stage} />
         {messages.length === 0 ? (
           <StylistWelcome
             onOptionSelect={

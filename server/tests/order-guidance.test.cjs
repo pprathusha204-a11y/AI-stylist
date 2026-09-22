@@ -15,7 +15,7 @@ test('answers multiple customer questions without promising unverified card acce
   const reply = getOrderGuidance('How will I be measured? Can I upload a style? Can I specify my fabric blends and counts and lining? Can I use a credit card and ship to Delhi or the US?');
   assert.match(reply, /illustrated guide/);
   assert.match(reply, /JPG/);
-  assert.match(reply, /yarn count/);
+  assert.match(reply, /yarn count/i);
   assert.match(reply, /do not explicitly confirm US-issued card/);
   assert.match(reply, /three weeks/);
   assert.equal(getOrderGuidance('I prefer a navy suit'), null);
