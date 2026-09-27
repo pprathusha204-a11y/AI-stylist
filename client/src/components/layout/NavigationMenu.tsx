@@ -1,13 +1,23 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useImperativeHandle, useRef, useState, type ReactNode, type Ref } from "react";
 import { ArrowLeft, Menu, X } from "lucide-react";
 import PaymentDelivery from "../../features/stylist/PaymentDelivery";
 
-export default function NavigationMenu({ journey }: { journey: ReactNode }) {
+export type NavigationMenuHandle = { openJourney: () => void };
+
+export default function NavigationMenu({ journey, ref }: { journey: ReactNode; ref?: Ref<NavigationMenuHandle> }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const menuItem = useRef<HTMLButtonElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [view, setView] = useState<"menu" | "journey" | "payment-delivery">("menu");
+
+  useImperativeHandle(ref, () => ({
+    openJourney() {
+      setView("journey");
+      dialog.current?.showModal();
+      setIsOpen(true);
+    },
+  }), []);
 
   useEffect(() => {
     if (!isOpen) return;

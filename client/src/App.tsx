@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 import Header from "./components/layout/Header";
+import type { NavigationMenuHandle } from "./components/layout/NavigationMenu";
 import ChatInput from "./features/stylist/ChatInput";
 import ChatMessage from "./features/stylist/ChatMessage";
 import FabricRecommendationCard from "./features/stylist/FabricRecommendationCard";
@@ -123,6 +124,7 @@ const optionMessages: Record<
 };
 
 function App() {
+  const navigationRef = useRef<NavigationMenuHandle>(null);
   const [messages, setMessages] =
     useState<Message[]>([]);
 
@@ -573,6 +575,7 @@ function App() {
   return (
     <div className="min-h-screen bg-[#f7f9fc]">
       <Header
+        navigationRef={navigationRef}
         journey={<OrderHelp requirements={[...messages].reverse().find(message => message.requirements)?.requirements} stage={[...messages].reverse().find(message => message.stage)?.stage} />}
         onNewSession={
           handleNewSession
@@ -582,6 +585,7 @@ function App() {
       <main className="pb-28">
         {messages.length === 0 ? (
           <StylistWelcome
+            onHowItWorks={() => navigationRef.current?.openJourney()}
             onOptionSelect={
               handleWelcomeOptionSelect
             }

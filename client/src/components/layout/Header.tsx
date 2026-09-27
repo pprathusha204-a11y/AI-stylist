@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import NavigationMenu from "./NavigationMenu";
+import type { ReactNode, Ref } from "react";
+import NavigationMenu, { type NavigationMenuHandle } from "./NavigationMenu";
 import {
   House,
   Plus,
@@ -9,13 +9,14 @@ import {
 type HeaderProps = {
   onNewSession: () => void;
   journey: ReactNode;
+  navigationRef: Ref<NavigationMenuHandle>;
 };
 
-function Header({ onNewSession, journey }: HeaderProps) {
+function Header({ onNewSession, journey, navigationRef }: HeaderProps) {
   return (
     <header className="grid h-16 grid-cols-[1fr_auto_1fr] items-center border-b border-slate-200 bg-white px-3 shadow-sm sm:px-5">
       <div className="flex items-center gap-1 sm:gap-5">
-        <NavigationMenu journey={journey} />
+        <NavigationMenu ref={navigationRef} journey={journey} />
 
         <button
           type="button"

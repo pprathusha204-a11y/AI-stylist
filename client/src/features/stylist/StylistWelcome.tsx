@@ -53,10 +53,12 @@ type WelcomeView =
 
 type StylistWelcomeProps = {
   onOptionSelect: (option: string) => void;
+  onHowItWorks: () => void;
 };
 
 function StylistWelcome({
   onOptionSelect,
+  onHowItWorks,
 }: StylistWelcomeProps) {
   const [view, setView] =
     useState<WelcomeView>("main");
@@ -146,6 +148,18 @@ function StylistWelcome({
           </button>
         ))}
       </div>
+
+      {view === "main" && (
+        <button
+          type="button"
+          onClick={onHowItWorks}
+          aria-haspopup="dialog"
+          aria-controls="navigation-dialog"
+          className="mt-4 rounded-sm text-xs font-medium text-slate-500 transition hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2"
+        >
+          How It Works
+        </button>
+      )}
 
       {view !== "main" && (
         <button
