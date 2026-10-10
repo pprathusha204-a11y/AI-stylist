@@ -38,7 +38,7 @@ const externalLinks: Record<string, string> = {
   "Automated Measurement":
     "https://web.truetoform.fit/send-avatar?clientId=614652",
   "Men's Measurement Guide":
-    "https://tech-tailor.com/download/men/mens-body-measurements.pdf",
+    `${import.meta.env.BASE_URL}guides/mens-body-measurements.pdf`,
   "Women's Measurement Guide":
     "https://tech-tailor.com/download/women/womens-body-measurements.pdf",
   "Corporate Orders":

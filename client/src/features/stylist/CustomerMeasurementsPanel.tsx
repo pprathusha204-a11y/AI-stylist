@@ -185,7 +185,7 @@ function CustomMeasurementsPanel({
     audienceText.includes("women") ||
     audienceText.includes("female")
       ? "https://tech-tailor.com/download/women/womens-body-measurements.pdf"
-      : "https://tech-tailor.com/download/men/mens-body-measurements.pdf";
+      : `${import.meta.env.BASE_URL}guides/mens-body-measurements.pdf`;
 
   const handleSubmit = (
     event: FormEvent<HTMLFormElement>,
