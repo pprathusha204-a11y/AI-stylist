@@ -2,10 +2,14 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import chatRouter from "./routes/chat.routes";
+import callbackRouter from "./routes/callback.routes";
+import { deliverCallbackNotifications } from "./services/callback.service";
 
 dotenv.config();
 
 const app = express();
+// Set only to the known number of trusted reverse-proxy hops.
+if (process.env.TRUST_PROXY_HOPS) app.set("trust proxy", Number(process.env.TRUST_PROXY_HOPS));
 
 const PORT = Number(process.env.PORT) || 3001;
 const CLIENT_URL =
@@ -18,6 +22,7 @@ app.use(
   }),
 );
 
+app.use("/api/callback", callbackRouter);
 app.use(express.json({ limit: "8mb" }));
 app.use("/api/chat", chatRouter);
 
@@ -40,3 +45,11 @@ app.listen(PORT, () => {
     `Tech-Tailor AI server running at http://localhost:${PORT}`,
   );
 });
+let notifying = false;
+const notificationTimer = setInterval(async () => {
+  if (notifying) return;
+  notifying = true;
+  try { await deliverCallbackNotifications(); } catch { console.warn("Callback outbox unavailable; check database configuration and migration."); }
+  finally { notifying = false; }
+}, 30000);
+notificationTimer.unref();

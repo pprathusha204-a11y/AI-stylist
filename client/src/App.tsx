@@ -1,4 +1,5 @@
 import OrderHelp from "./features/stylist/OrderHelp";
+import CallbackWidget from "./components/CallbackWidget";
 import {
   useEffect,
   useRef,
@@ -574,6 +575,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#f7f9fc]">
+      <CallbackWidget />
       <Header
         navigationRef={navigationRef}
         journey={<OrderHelp requirements={[...messages].reverse().find(message => message.requirements)?.requirements} stage={[...messages].reverse().find(message => message.stage)?.stage} />}
